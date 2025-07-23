@@ -32,3 +32,36 @@ The web version tracks game **phases, roles, and timers**, while real actions (l
 
 ## 📁 Project Structure
 
+killer-blink-game/
+│
+├── index.html # Main game UI
+├── style.css # Game styling
+├── script.js # Game logic and phase control
+└── README.md # You're here!
+
+
+---
+
+## 🚀 How to Run
+
+1. **Clone or download** the repo  
+2. Open `index.html` in any modern browser  
+3. Play the game with friends in-person  
+   - Use the website for role reveal and tracking phases  
+   - Perform game actions like blinking, voting, etc. in real life
+
+---
+
+## 💡 Ideas for Expansion
+
+- Multiplayer support with **Supabase or Firebase**  
+- Realtime **presence tracking**  
+- Voting system & elimination screen  
+- Player list management  
+- Camera-based **blink detection** (AI integration)
+
+---
+
+## 📜 License
+
+MIT License – Free to use, modify, and distribute.
