@@ -3,12 +3,28 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="icon"
+            type="image/x-icon"
+            href="assets/monstar-zero-logo.png"
+            sizes="32x32"
+        />
         <title>EyeSpy: Killer Game</title>
         <link rel="stylesheet" href="styles.css" />
     </head>
-    <body class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center px-4 py-8" >
+
+    <body
+        class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center px-4 py-8"
+    >
         <!-- Game Title -->
-        <h1 class="text-4xl font-bold mb-6">EyeSpy: Killer Game</h1>
+        <div class="flex items-center mb-4 justify-center">
+            <img
+                src="assets/monstar-zero-logo.png"
+                alt="MonStar Zero Logo"
+                class="h-20 mx-auto rounded-3xl m-1"
+            />
+            <h1 class="text-4xl font-bold p-2 ml-3">EyeSpy: Killer Game</h1>
+        </div>
 
         <!-- Player Name Input -->
         <div class="flex flex-col items-center gap-3 w-full max-w-md">
@@ -42,4 +58,22 @@
 
         <script src="scripts.js"></script>
     </body>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 mt-4 text-center text-sm pt-5 rounded-lg p-3">
+        <div class="flex flex-col items-center justify-center space-y-1">
+            <p>
+                Icons by
+                <a
+                    href="https://icon-icons.com/"
+                    target="_blank"
+                    class="text-blue-400 hover:underline"
+                >
+                    icon-icons.com </a
+                >. All rights reserved to their respective creators.
+            </p>
+
+            <p class="text-gray-400">© 2025 MonStar Zero Studios</p>
+        </div>
+    </footer>
 </html>
