@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="icon"
+            type="image/x-icon"
+            href="assets/monstar-zero-logo.png"
+        />
+        <title>Voting Round</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <div class="max-w-2xl mx-auto mt-10 text-center space-y-4">
+            <h1 class="text-3xl font-bold">Vote to Eliminate</h1>
+            <p class="text-lg">Tap a player to vote for elimination:</p>
+
+            <ul id="voteList" class="space-y-2"></ul>
+
+            <div id="status" class="mt-6 text-xl text-green-400 hidden"></div>
+        </div>
+
+        <script>
+            const players = JSON.parse(localStorage.getItem("players")) || [];
+            const currentPlayerIndex = parseInt(
+                localStorage.getItem("playerIndex")
+            );
+            const voteList = document.getElementById("voteList");
+            const status = document.getElementById("status");
+
+            // Prevent voting for self
+            const voteOptions = players.filter(
+                (_, index) => index !== currentPlayerIndex
+            );
+
+            voteOptions.forEach((player, index) => {
+                const li = document.createElement("li");
+                li.textContent = player.name;
+                li.className =
+                    "cursor-pointer bg-red-600 hover:bg-red-700 py-2 px-4 rounded text-white";
+                li.addEventListener("click", () => {
+                    localStorage.setItem(`vote_${currentPlayerIndex}`, index);
+                    status.textContent = `You voted for ${player.name}.`;
+                    status.classList.remove("hidden");
+                    voteList.classList.add("pointer-events-none", "opacity-50");
+                });
+                voteList.appendChild(li);
+            });
+        </script>
+    </body>
+</html>

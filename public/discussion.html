@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Discussion Time</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <div
+            class="flex flex-col items-center justify-center h-screen space-y-6 text-center"
+        >
+            <h1 class="text-4xl font-bold">Discussion Time</h1>
+            <p class="text-lg">
+                You have <span id="countdown">30</span> seconds to discuss who
+                might be the Killer.
+            </p>
+        </div>
+
+        <script>
+            let timer = 30;
+            const countdown = document.getElementById("countdown");
+
+            const interval = setInterval(() => {
+                timer--;
+                countdown.textContent = timer;
+
+                if (timer <= 0) {
+                    clearInterval(interval);
+                    window.location.href = "vote.html"; // Redirect to voting page
+                }
+            }, 1000);
+            let round = parseInt(localStorage.getItem("round") || "1");
+            document.querySelector(
+                "h1"
+            ).textContent = `Round ${round}: Discussion Time`;
+
+            setTimeout(() => {
+                localStorage.setItem("round", round + 1);
+                window.location.href = "vote.html";
+            }, 30000);
+        </script>
+    </body>
+</html>

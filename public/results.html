@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="icon"
+            type="image/x-icon"
+            href="assets/monstar-zero-logo.png"
+        />
+        <title>Voting Results</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <div class="max-w-xl mx-auto mt-10 text-center space-y-6">
+            <h1 class="text-3xl font-bold">Voting Results</h1>
+            <div id="results" class="text-lg"></div>
+            <div id="outcome" class="text-2xl mt-4 font-semibold"></div>
+        </div>
+
+        <script>
+            const players = JSON.parse(localStorage.getItem("players")) || [];
+            const roles = JSON.parse(localStorage.getItem("roles")) || [];
+            const voteCounts = new Array(players.length).fill(0);
+
+            // Count votes from localStorage
+            for (let i = 0; i < players.length; i++) {
+                const vote = localStorage.getItem(`vote_${i}`);
+                if (vote !== null) {
+                    voteCounts[parseInt(vote)] += 1;
+                }
+            }
+
+            // Determine who got the most votes
+            const maxVotes = Math.max(...voteCounts);
+            const votedOutIndex = voteCounts.indexOf(maxVotes);
+
+            const resultsDiv = document.getElementById("results");
+            const outcomeDiv = document.getElementById("outcome");
+
+            // Show vote tally
+            resultsDiv.innerHTML = players
+                .map((player, i) => {
+                    return `${player.name}: ${voteCounts[i]} vote(s)`;
+                })
+                .join("<br>");
+
+            // Display outcome
+            const votedOutPlayer = players[votedOutIndex];
+            const votedOutRole = roles[votedOutIndex];
+
+            outcomeDiv.innerHTML = `${votedOutPlayer.name} was voted out.<br><br> They were a <strong>${votedOutRole}</strong>!`;
+
+            // Remove voted out player from players & roles
+            players.splice(votedOutIndex, 1);
+            roles.splice(votedOutIndex, 1);
+
+            // Save updated lists
+            localStorage.setItem("players", JSON.stringify(players));
+            localStorage.setItem("roles", JSON.stringify(roles));
+
+            if (players.length <= 2) {
+                localStorage.setItem("killerCaught", "false");
+                window.location.href = "game-over.html";
+            }
+
+            // Optional: Game over if killer was caught
+            if (votedOutRole.toLowerCase() === "killer") {
+                localStorage.setItem("killerCaught", "true");
+                setTimeout(() => {
+                    window.location.href = "game-over.html";
+                }, 5000); // Wait 5 seconds then go to game-over
+            } else {
+                localStorage.setItem("killerCaught", "false");
+                setTimeout(() => {
+                    window.location.href = "discussion.html"; // Next round
+                }, 5000);
+            }
+        </script>
+    </body>
+</html>

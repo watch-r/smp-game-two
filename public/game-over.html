@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Game Over</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <div
+            class="flex flex-col items-center justify-center min-h-screen text-center space-y-6"
+        >
+            <h1 id="end-title" class="text-4xl font-bold"></h1>
+            <p id="summary" class="text-lg"></p>
+            <button
+                onclick="restartGame()"
+                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            >
+                Restart Game
+            </button>
+        </div>
+
+        <script>
+            const killerCaught =
+                localStorage.getItem("killerCaught") === "true";
+            const endTitle = document.getElementById("end-title");
+            const summary = document.getElementById("summary");
+
+            if (killerCaught) {
+                endTitle.textContent = "🎉 Game Over – Killer Eliminated!";
+                summary.textContent =
+                    "Congratulations! The players successfully voted out the Killer!";
+            } else {
+                endTitle.textContent = "💀 Game Over – Killer Survives!";
+                summary.textContent =
+                    "Oh no! The Killer outsmarted everyone and survived!";
+            }
+
+            function restartGame() {
+                localStorage.clear();
+                window.location.href = "index.html";
+            }
+        </script>
+    </body>
+</html>
