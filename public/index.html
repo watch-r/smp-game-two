@@ -6,72 +6,49 @@
         <link
             rel="icon"
             type="image/x-icon"
-            href="assets/monstar-zero-logo.png"
+            href="../assets/img/eyespy-killer-game.png"
             sizes="32x32"
         />
-        <title>EyeSpy: Killer Game</title>
-        <link rel="stylesheet" href="styles.css" />
+        <title>EyeSpy: Killer Game - Welcome</title>
+        <link rel="stylesheet" href="../styles.css" />
     </head>
 
     <body
         class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center px-4 py-8"
     >
         <!-- Game Title -->
-        <div class="flex items-center mb-4 justify-center">
-            <img
-                src="assets/monstar-zero-logo.png"
-                alt="MonStar Zero Logo"
-                class="h-20 mx-auto rounded-3xl m-1"
-            />
-            <h1 class="text-4xl font-bold p-2 ml-3">EyeSpy: Killer Game</h1>
-        </div>
+        <img
+            src="../assets/img/eyespy-killer-game-horizontal.png"
+            alt="EyeSpy: Killer Game Logo"
+            class="h-30 mx-auto rounded-3xl mb-4 justify-center"
+        />
+        <p class="mb-6 text-gray-300 italic text-center bg-gray-800 p-4 rounded-lg">
+            A real-time party game. Choose an option to begin:
+        </p>
 
-        <!-- Player Name Input -->
-        <div class="flex flex-col items-center gap-3 w-full max-w-md">
-            <input
-                id="playerName"
-                type="text"
-                placeholder="Enter your name"
-                class="w-full border border-white rounded-lg px-4 py-2 bg-transparent text-white placeholder-white"
-            />
+        <div class="flex flex-col space-y-4">
             <button
-                onclick="joinGame()"
-                class="bg-blue-600 hover:bg-blue-700 transition px-4 py-2 rounded-lg w-full"
+                onclick="location.href='host.html'"
+                class="bg-red-600 hover:bg-red-700 rounded p-3 font-semibold"
             >
-                Join Game
+                🎮 Host Game
+            </button>
+
+            <button
+                onclick="location.href='join.html'"
+                class="bg-blue-600 hover:bg-blue-700 rounded p-3 font-semibold"
+            >
+                🤝 Join Game
             </button>
         </div>
 
-        <!-- Player List -->
-        <div id="playerList" class="mt-8 w-full max-w-md">
-            <h2 class="text-xl font-semibold mb-2">Players Joined:</h2>
-            <ul class="space-y-2" id="playersUl"></ul>
-        </div>
-
-        <!-- Start Game Button (Host) -->
-        <button
-            onclick="startGame()"
-            class="mt-8 bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg"
-        >
-            Start Game
-        </button>
-
-        <script src="scripts.js"></script>
+        <script src="scripts/scripts.js"></script>
     </body>
 
     <!-- Footer -->
     <footer class="bg-gray-800 mt-4 text-center text-sm pt-5 rounded-lg p-3">
         <div class="flex flex-col items-center justify-center space-y-1">
-            <p>
-                Icons by
-                <a
-                    href="https://icon-icons.com/"
-                    target="_blank"
-                    class="text-blue-400 hover:underline"
-                >
-                    icon-icons.com </a
-                >. All rights reserved to their respective creators.
-            </p>
+            <p class="text-gray-400">Made with ❤️ by MonStar Zero Studios</p>
 
             <p class="text-gray-400">© 2025 MonStar Zero Studios</p>
         </div>
