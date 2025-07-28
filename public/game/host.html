@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="icon"
+            type="image/x-icon"
+            href="../../assets/img/eyespy-killer-game.png"
+            sizes="32x32"
+        />
+        <title>EyeSpy: Killer Game - Host</title>
+        <link rel="stylesheet" href="../../styles.css" />
+    </head>
+    <body
+        class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center px-4 py-8"
+    >
+        <main
+            class="max-w-md w-full p-8 bg-gray-800 rounded-lg shadow-lg text-center"
+        >
+            <h1 class="text-3xl font-bold mb-6">Create a New Game Room</h1>
+            <input
+                class="bg-gray-50 border m-3 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                type="text"
+                id="hostNameInput"
+                placeholder="Enter your name"
+                required
+            />
+            <button
+                id="createRoomBtn"
+                class="bg-red-600 hover:bg-red-700 rounded py-3 px-6 font-semibold"
+            >
+                🎲 Create Room
+            </button>
+
+            <p
+                id="roomCodeDisplay"
+                class="mt-6 text-xl tracking-widest font-mono"
+            ></p>
+        </main>
+
+        <script type="module" src="../../scripts/host.js"></script>
+    </body>
+</html>

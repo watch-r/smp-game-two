@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="icon"
+            type="image/x-icon"
+            href="../../assets/img/eyespy-killer-game.png"
+            sizes="32x32"
+        />
+        <title>EyeSpy: Killer Game - Game Lobby</title>
+        <link rel="stylesheet" href="../../styles.css" />
+    </head>
+    <body
+        class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center px-4 py-8"
+    >
+        <main
+            class="max-w-md w-full p-6 bg-gray-800 rounded-lg shadow-lg text-center"
+        >
+            <h1 class="text-2xl font-bold mb-4">Waiting Room</h1>
+
+            <p class="mb-2">Room Code:</p>
+            <div
+                id="roomCode"
+                class="text-xl font-mono bg-gray-700 p-2 rounded mb-4"
+            >
+                ...
+            </div>
+
+            <h2 class="text-lg font-semibold mb-2">Players Joined:</h2>
+            <ul
+                id="playerList"
+                class="text-left mb-4 space-y-1 max-h-48 overflow-y-auto"
+            >
+                <!-- Player names will be listed here -->
+            </ul>
+
+            <button
+                id="startGameBtn"
+                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded hidden"
+            >
+                ▶️ Start Game
+            </button>
+        </main>
+
+        <script type="module" src="../../scripts/room.js"></script>
+    </body>
+</html>
