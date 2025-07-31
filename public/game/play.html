@@ -13,12 +13,23 @@
         <title>EyeSpy: Killer Game - Room</title>
         <link rel="stylesheet" href="../../styles.css" />
     </head>
-    <body>
-        <h1>Game Started</h1>
-        <p id="status">Waiting for game data...</p>
+    <body
+        class="bg-black text-white flex flex-col items-center justify-center h-screen p-4"
+    >
+        <h1 class="text-3xl font-bold mb-2">Role Reveal</h1>
+        <p id="roomInfo" class="mb-4 text-sm text-gray-400"></p>
 
-        <ul id="playersList"></ul>
+        <div
+            id="card"
+            class="w-64 h-40 flex items-center justify-center bg-gray-800 rounded-lg shadow-lg text-xl font-semibold cursor-pointer transition-transform duration-300"
+        >
+            Tap to reveal your role
+        </div>
 
-        <script type="module" src="/scripts/play.js"></script>
+        <p id="timer" class="mt-4 text-lg text-red-400 hidden">
+            Time left: <span id="countdown">5</span>s
+        </p>
+
+        <script type="module" src="../../scripts/play.js"></script>
     </body>
 </html>

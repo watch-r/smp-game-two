@@ -1,82 +1,75 @@
 // /scripts/play.js
-import { supabase } from "./supabase.js";
+import { supabase } from "./superbase.js";
 
-// 🌐 Get URL Params
+// DOM elements
+const card = document.getElementById("card");
+const timer = document.getElementById("timer");
+const countdown = document.getElementById("countdown");
+const roomInfo = document.getElementById("roomInfo");
+
+// Get room & player name from localStorage / URL
 const urlParams = new URLSearchParams(window.location.search);
 const roomCode = urlParams.get("room");
-const isHost = urlParams.get("host") === "true";
+const playerName = localStorage.getItem("playerName");
 
-// 🎯 DOM Elements
-const statusText = document.getElementById("status");
-const playersList = document.getElementById("playersList");
+// Show room & player
+roomInfo.textContent = `Room: ${roomCode} | Player: ${playerName}`;
 
-// 📦 Fetch players in the room
-async function fetchPlayers() {
+// Get this player's role
+let role = null;
+let revealed = false;
+let timeLeft = 5;
+let timerInterval = null;
+
+async function fetchRole() {
     const { data, error } = await supabase
         .from("players")
-        .select("*")
-        .eq("room_code", roomCode);
-
-    if (error) {
-        console.error("Error fetching players:", error.message);
-        statusText.textContent = "Error loading players!";
-        return;
-    }
-
-    renderPlayers(data);
-}
-
-// 🖼️ Render players
-function renderPlayers(players) {
-    playersList.innerHTML = "";
-    players.forEach((player) => {
-        const li = document.createElement("li");
-        li.textContent = player.name;
-        playersList.appendChild(li);
-    });
-}
-
-// 🔁 Check if game has started (optional in this file if you're redirected correctly)
-async function checkGameStatus() {
-    const { data, error } = await supabase
-        .from("rooms")
-        .select("game_status")
-        .eq("code", roomCode)
+        .select("role")
+        .eq("room_code", roomCode)
+        .eq("name", playerName)
         .single();
 
-    if (error) {
-        console.error("Error fetching game status:", error.message);
-        statusText.textContent = "Error fetching game status.";
+    if (error || !data) {
+        card.textContent = "Failed to fetch role.";
         return;
     }
 
-    if (data.game_status === "started") {
-        statusText.textContent = "Game is in progress!";
-    } else {
-        statusText.textContent = "Waiting for game to start...";
-    }
+    role = data.role;
 }
 
-// 🔁 Optionally listen to game status change
-supabase
-    .channel("room-status-" + roomCode)
-    .on(
-        "postgres_changes",
-        {
-            event: "UPDATE",
-            schema: "public",
-            table: "rooms",
-            filter: `code=eq.${roomCode}`,
-        },
-        (payload) => {
-            if (payload.new.game_status === "started") {
-                statusText.textContent = "Game just started!";
-                fetchPlayers();
-            }
-        }
-    )
-    .subscribe();
+card.addEventListener("click", () => {
+    if (!role) return;
 
-// 🚀 Run
-checkGameStatus();
-fetchPlayers();
+    if (!revealed) {
+        revealed = true;
+        card.textContent = `Your Role: ${role.toUpperCase()}`;
+        card.classList.add("bg-green-700");
+
+        timer.classList.remove("hidden");
+        startCountdown();
+    } else {
+        revealed = false;
+        card.textContent = "Tap to reveal your role";
+        card.classList.remove("bg-green-700");
+        timer.classList.add("hidden");
+        clearInterval(timerInterval);
+        countdown.textContent = 5;
+        timeLeft = 5;
+    }
+});
+
+function startCountdown() {
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        countdown.textContent = timeLeft;
+
+        if (timeLeft === 0) {
+            clearInterval(timerInterval);
+            card.textContent = "Time's up!";
+            timer.classList.add("hidden");
+        }
+    }, 1000);
+}
+
+// Fetch role initially
+fetchRole();

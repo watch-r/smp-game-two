@@ -1,21 +1,20 @@
 // /scripts/room.js
 import { supabase } from "./superbase.js";
 
-// 📌 Get DOM elements
+// DOM elements
 const roomCodeDisplay = document.getElementById("roomCode");
 const playerList = document.getElementById("playerList");
 const startGameBtn = document.getElementById("startGameBtn");
 
-// 📦 Get room code and isHost from query parameters
+// Get room info from URL
 const urlParams = new URLSearchParams(window.location.search);
 const roomCode = urlParams.get("room");
 const isHost = urlParams.get("host") === "true";
 
-// 🖊️ Display room code
+// Display room code
 roomCodeDisplay.textContent = roomCode;
-console.log("Room Code:", urlParams);
 
-// 🔄 Fetch and show all players
+// Fetch and display current players
 async function fetchPlayers() {
     const { data, error } = await supabase
         .from("players")
@@ -30,7 +29,7 @@ async function fetchPlayers() {
     renderPlayers(data);
 }
 
-// 👥 Render players
+// Render players in list
 function renderPlayers(players) {
     playerList.innerHTML = "";
     players.forEach((player, index) => {
@@ -41,7 +40,60 @@ function renderPlayers(players) {
     });
 }
 
-// 🔔 Subscribe to realtime player join
+// Shuffle roles
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+// Host starts the game
+if (isHost) {
+    startGameBtn.classList.remove("hidden");
+
+    startGameBtn.addEventListener("click", async () => {
+        // 1. Fetch players
+        const { data: players, error: fetchError } = await supabase
+            .from("players")
+            .select("*")
+            .eq("room_code", roomCode);
+
+        if (fetchError) {
+            alert("Error fetching players: " + fetchError.message);
+            return;
+        }
+
+        // 2. Create and shuffle roles
+        let roles = Array(players.length).fill("villager");
+        roles[0] = "killer"; // 1 killer
+        roles = shuffleArray(roles);
+
+        // 3. Assign roles
+        for (let i = 0; i < players.length; i++) {
+            await supabase
+                .from("players")
+                .update({ role: roles[i] })
+                .eq("id", players[i].id);
+        }
+
+        // 4. Mark game as started
+        const { error: updateError } = await supabase
+            .from("rooms")
+            .update({ game_status: "started" })
+            .eq("code", roomCode);
+
+        if (updateError) {
+            alert("Error starting game: " + updateError.message);
+        } else {
+            // 5. Go to play.html
+            window.location.href = `../game/play.html?room=${roomCode}`;
+        }
+    });
+}
+
+// Subscribe to player joins in real time
 supabase
     .channel("players-room-" + roomCode)
     .on(
@@ -52,29 +104,11 @@ supabase
             table: "players",
             filter: `room_code=eq.${roomCode}`,
         },
-        (payload) => {
-            fetchPlayers(); // update player list on new join
+        () => {
+            fetchPlayers(); // Refresh on join
         }
     )
     .subscribe();
 
-// 🚀 Show start button if host
-if (isHost) {
-    startGameBtn.classList.remove("hidden");
-    startGameBtn.addEventListener("click", async () => {
-        const { error } = await supabase
-            .from("rooms")
-            .update({ game_status: "started" })
-            .eq("code", roomCode);
-
-        if (error) {
-            alert("Error starting game: " + error.message);
-        } else {
-            // Redirect all players to the game page
-            window.location.href = `../game/play.html?room=${roomCode}&host=true`;
-        }
-    });
-}
-
-// 🏁 Initial fetch
+// Initial player fetch
 fetchPlayers();

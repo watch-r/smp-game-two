@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Join Game - EyeSpy: Killer Game</title>
+        <link rel="stylesheet" href="../../styles.css" />
+    </head>
+    <body
+        class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center px-4 py-8"
+    >
+        <h1 class="text-2xl font-bold mb-4">Join a Game</h1>
+        <form id="joinForm" class="flex flex-col space-y-4 w-full max-w-xs">
+            <input
+                id="roomCodeInput"
+                type="text"
+                placeholder="Room Code"
+                required
+                class="bg-gray-50 border m-3 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            />
+            <input
+                id="playerNameInput"
+                type="text"
+                placeholder="Your Name"
+                required
+                class="bg-gray-50 border m-3 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            />
+            <button
+                type="submit"
+                class="bg-blue-600 hover:bg-blue-700 rounded p-3 font-semibold"
+            >
+                Join
+            </button>
+        </form>
+        <ul id="playerList" class="mt-8 space-y-2"></ul>
+        <button
+            id="startGameBtn"
+            class="mt-8 bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg hidden"
+            disabled
+        >
+            Start Game
+        </button>
+        <script type="module" src="../../scripts/join.js"></script>
+    </body>
+</html>
